@@ -3,7 +3,9 @@ import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import connectDB from './config/db.js';
 import captainRoutes from './routes/captain.routes.js';
+import rabbitMq from './services/rabbit.js';
 
+rabbitMq.connect();
 
 // Load environment variables from .env file
 dotenv.config();

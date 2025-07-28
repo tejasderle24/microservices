@@ -3,7 +3,9 @@ import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import connectDB from './config/db.js';
 import userRoutes from './routes/user.routes.js';
+import {connect} from './services/rabbit.js';
 
+connect();
 
 // Load environment variables from .env file
 dotenv.config();

@@ -12,7 +12,8 @@ app.use(express.json());
 
 app.use('/user', expressProxy(process.env.USER_SERVICE_URL));
 app.use('/captain', expressProxy(process.env.CAPTAIN_SERVICE_URL));
+app.use('/ride', expressProxy(process.env.RIDE_SERVICE_URL));
 
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log(`Gateway server running on port ${PORT}`);
 });

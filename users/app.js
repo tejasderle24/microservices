@@ -25,7 +25,7 @@ app.use(express.urlencoded({extended:true}));
 app.use(cookieParser());
 
 // Use user routes
-app.use('/api/users', userRoutes);
+app.use('/', userRoutes);
 
 
 export default app;

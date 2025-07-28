@@ -1,6 +1,7 @@
 import User from '../models/user.model.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { BlacklistToken } from '../models/blacklistToken.model.js';
 
 
 export const register = async (req, res) => {
@@ -18,6 +19,8 @@ export const register = async (req, res) => {
 
         // Generate JWT token
         const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRATION });
+
+        delete newUser._doc.password; // Remove password from user object
 
         // Set token in cookie
         res.cookie('token', token);
@@ -45,6 +48,9 @@ export const login = async (req, res) => {
         }
         // Generate JWT token
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRATION });
+
+        delete user._doc.password; // Remove password from user object
+
         // Set token in cookie
         res.cookie('token', token);
         res.status(200).json({ message: "Logged in successfully", token });
@@ -56,6 +62,8 @@ export const login = async (req, res) => {
 
 export const logout = async (req, res) => {
     try {
+        const token = req.cookies.token;
+        await BlacklistToken.create({ token });
         res.clearCookie('token');
         res.status(200).json({ message: "Logged out successfully" });
     } catch (error) {
